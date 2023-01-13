@@ -1,0 +1,24 @@
+---
+- name: Copy docker-compose
+  tags: webinar, webinar_create
+  template:
+    src: "templates/docker-compose.yml.j2"
+    dest: "/opt/webinar-bastion/docker-compose.yml"
+    owner: root
+    group: root
+    mode: 0700
+  register: docker_compose_file
+
+- name: Shutdown containers if running
+  tags: webinar, webinar_create
+  docker_compose:
+    project_src: /opt/webinar-bastion/
+    state: absent
+    remove_orphans: true
+    debug: true
+  when: docker_compose_file.changed
+
+- name: Run docker-compose to start webinar
+  tags: webinar, webinar_create
+  docker_compose:
+    project_src: /opt/webinar-bastion/

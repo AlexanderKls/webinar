@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  webinar-nginx:
+    image: mackedonsky/webinar:webinar-nginx
+    container_name: webinar-nginx
+    restart: always
+    cpu_count: 1
+    mem_limit: 1G
+    ports:
+      - '80:80'
+    volumes:
+      - /opt/webinar-app/app:/home/aurora/app
+      - /opt/webinar-nginx/:/etc/nginx/sites-enabled
+    networks:
+      webinar_net:
+        ipv4_address: 172.19.0.2
+
+  backend-db:
+    image: mysql:5.7
+    container_name: webinar1-mysql
+    restart: always
+    cpu_count: 1
+    mem_limit: 1G
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ${WEBINAR_DATA}webinar1:${MYSQL_DATA}
+    networks:
+      webinar_net:
+        ipv4_address: 172.19.0.3
+
+  backend-db2:
+    image: mysql:5.7
+    container_name: webinar2-mysql
+    restart: always
+    cpu_count: 1
+    mem_limit: 1G
+    command: --init-file ${WEBINAR_INIT}
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ${WEBINAR_DATA}webinar2:${MYSQL_DATA}
+      - ${WEBINAR_DUMP}:${WEBINAR_INIT}
+    networks:
+      webinar_net:
+        ipv4_address: 172.19.0.4
+
+  backend-db3:
+    image: mysql:5.7
+    container_name: webinar3-mysql
+    restart: always
+    cpu_count: 1
+    mem_limit: 1G
+    command: --init-file ${WEBINAR_INIT}
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ${WEBINAR_DATA}webinar3:${MYSQL_DATA}
+      - ${WEBINAR_DUMP}:${WEBINAR_INIT}
+    networks:
+      webinar_net:
+        ipv4_address: 172.19.0.5
+
+networks:
+  webinar_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: "172.19.0.0/24"
+    driver_opts:
+      com.docker.network.bridge.name: webinar_mysql

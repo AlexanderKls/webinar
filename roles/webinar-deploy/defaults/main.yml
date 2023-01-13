@@ -1,0 +1,8 @@
+---
+# defaults file for webinar-deploy
+
+# Real count, its number - 3. Example, 6 - 3 = 3 backends
+backend_count: 6
+
+webinar_cpu_count: 1
+webinar_memory_limit: "1G"

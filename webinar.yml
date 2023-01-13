@@ -1,0 +1,6 @@
+
+- hosts: webinar
+  connection: local
+
+  roles:
+    - { role: webinar-deploy }

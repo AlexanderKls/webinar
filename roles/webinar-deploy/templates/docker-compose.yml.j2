@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  webinar-nginx:
+    image: mackedonsky/webinar:webinar-nginx
+    container_name: webinar-nginx
+    restart: always
+    cpu_count: 1
+    mem_limit: 1G
+    ports:
+      - '80:80'
+    volumes:
+      - /opt/webinar-app/app:/home/aurora/app
+      - /opt/webinar-nginx/:/etc/nginx/sites-enabled
+    networks:
+      webinar_net:
+        ipv4_address: 172.19.0.2
+
+{%for num in range(3, backend_count) %}
+  backend-db{{ num }}:
+    image: mysql:5.7
+    container_name: webinar{{ num }}-mysql
+    restart: always
+    cpu_count: {{ webinar_cpu_count }}
+    mem_limit: {{ webinar_memory_limit }}
+    command: --init-file ${WEBINAR_INIT}
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ${WEBINAR_DATA}webinar{{ num }}:${MYSQL_DATA}
+    networks:
+      webinar_net:
+        ipv4_address: 172.19.0.{{ num }}
+
+{% endfor %}
+
+networks:
+  webinar_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: "172.19.0.0/24"
+    driver_opts:
+      com.docker.network.bridge.name: webinar_mysql
+

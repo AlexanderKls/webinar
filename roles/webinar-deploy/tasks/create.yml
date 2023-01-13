@@ -1,0 +1,33 @@
+---
+
+- name: Create directory if they don't exist
+  tags: webinar, webinar_create
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  loop:
+    - /opt/webinar-app
+    - /opt/webinar-nginx
+    - /opt/webinar-mysql/dump
+    - /opt/webinar-bastion
+
+- name: Copy frontend app
+  tags: webinar, webinar_create
+  template:
+    src: "templates/wsgiapp.py.j2"
+    dest: "/opt/webinar-app/wsgiapp.py"
+    owner: root
+    group: root
+    mode: 0700
+
+- name: Copy dump
+  tags: webinar, webinar_create
+  copy:
+    src: "files/webinar.sql"
+    dest: "/opt/webinar-mysql/dump/webinar.sql"
+    owner: root
+    group: root
+    mode: 0644
