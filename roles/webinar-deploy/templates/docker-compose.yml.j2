@@ -1,4 +1,4 @@
-version: '3.8'
+version: '2.2'
 
 services:
   webinar-nginx:
@@ -28,6 +28,7 @@ services:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     volumes:
+      - ${WEBINAR_DUMP}:${WEBINAR_INIT}
       - ${WEBINAR_DATA}webinar{{ num }}:${MYSQL_DATA}
     networks:
       webinar_net:

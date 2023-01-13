@@ -23,6 +23,9 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/ `webinar` /*!40100 DEFAULT CHARACTER SE
 
 USE `webinar`;
 
+GRANT ALL ON *.* to root@'%' IDENTIFIED BY '4uER6xYMQv2pZpDo';
+FLUSH PRIVILEGES;
+
 --
 -- Table structure for table `First`
 --
