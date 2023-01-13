@@ -10,7 +10,7 @@ services:
     ports:
       - '80:80'
     volumes:
-      - /opt/webinar-app/app:/home/aurora/app
+      - /opt/webinar-app:/home/aurora/app
       - /opt/webinar-nginx/:/etc/nginx/sites-enabled
     networks:
       webinar_net:
