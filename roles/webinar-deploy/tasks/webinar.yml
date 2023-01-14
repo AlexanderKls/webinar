@@ -83,6 +83,9 @@
 # В версиях ansible =< 2.7 нужно использовать docker_service, выше - docker_compose.
 # Так как в тестовом не было задачи на подготовку среды, я решил использовать метод ниже, чтобы при запуске избежать проблем.
 
+# Но этот метод так же не запустится, если используется `docker compose` - то есть версия на Go. 
+# И еще я не смог определиться, использовать handlers через notify, или таски. Решил оставить таски.
+
 - name: Docker-compose down, if files was be changed
   shell: "docker-compose -f {{ webinar_docker_file }} down"
   ignore_errors: true
