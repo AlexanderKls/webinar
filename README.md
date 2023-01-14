@@ -25,6 +25,9 @@ ansible 2.7.7
 python3 --version
 Python 3.7.3
 ```
+Если не запустится на других версиях и будет желание проверить на этой версии debian, инструкции по установке docker & docker-compose брал с digitalocean:
+https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-debian-10
+https://www.digitalocean.com/community/tutorials/how-to-install-docker-compose-on-debian-10
 
 Проверка работоспособности делается отправкой запроса на 127.0.0.1:80/api
 ```
