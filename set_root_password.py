@@ -30,11 +30,12 @@ def auto_psw():
 
     user_answer = input('Would you like to generate an automatic password? [y or n]')
 
-
+    # Autogenerate password
     if user_answer.lower() == 'y':
       alphabet = string.ascii_letters + string.digits
       result = ''.join(secrets.choice(alphabet) for i in range(20))
 
+    # Start manual insert password procedure
     elif user_answer.lower() == 'n':
       result = set_psw()
 
@@ -47,7 +48,10 @@ def auto_psw():
 def set_psw():
     result = ''
 
+    # Insert password(hidden)
     pswd = getpass(prompt='Set mysql root password, minimum 16 symbols: \n')
+
+    # Check len psw
     if len(pswd) < 16:
       print(f'{bcolors.WARNING}The password is too easy, count symbols: {len(pswd)}. Enter a password that is 16 or more characters long.{bcolors.ENDC} \n')
       set_psw()
@@ -55,6 +59,7 @@ def set_psw():
     else:
       repeat_pswd = getpass(prompt='Repeat password: \n')
 
+      # Password comparison
       if pswd == repeat_pswd:
           result = pswd
       else:
