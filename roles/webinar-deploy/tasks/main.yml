@@ -1,7 +1,5 @@
 ---
 # tasks file for webinar-deploy
 - name: Create files and dirs
-  import_tasks: create.yml
-
-#- name: Start docker compose
-#  import_tasks: docker_compose.yml
+  tags: webinar, webinar_create
+  import_tasks: webinar.yml

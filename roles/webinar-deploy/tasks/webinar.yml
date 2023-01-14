@@ -83,11 +83,11 @@
 # В версиях ansible =< 2.7 нужно использовать docker_service, выше - docker_compose.
 # Так как в тестовом не было задачи на подготовку среды, я решил использовать метод ниже, чтобы при запуске избежать проблем.
 
-- name: Docker-compose down, if compose file was be changed
+- name: Docker-compose down, if files was be changed
   shell: "docker-compose -f {{ webinar_docker_file }} down"
   ignore_errors: true
   when: docker_compose_file.changed or common_files.changed
 
-- name: Docker-compose up, if compose file was be changed
+- name: Docker-compose up, if files was be changed
   shell: "docker-compose -f {{ webinar_docker_file }} up -d"
   when: docker_compose_file.changed or common_files.changed
