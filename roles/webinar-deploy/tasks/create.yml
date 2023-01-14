@@ -9,19 +9,22 @@
     group: root
     mode: 0755
   loop:
-    - /opt/webinar-app
-    - /opt/webinar-nginx
-    - /opt/webinar-mysql/dump
-    - /opt/webinar-bastion
+    - path: /opt/webinar-app
+      owner: 'www-data'
+      group: 'www-data'
+      mode: '0600'
+    - path: /opt/webinar-nginx
+    - path: /opt/webinar-mysql/dump
+    - path: /opt/webinar-bastion
 
 - name: Copy frontend app
   tags: webinar, webinar_create
   template:
     src: "templates/wsgiapp.py.j2"
     dest: "/opt/webinar-app/wsgiapp.py"
-    owner: root
-    group: root
-    mode: 0700
+    owner: 'www-data'
+    group: 'www-data'
+    mode: '0600'
 
 - name: Copy dump
   tags: webinar, webinar_create
@@ -32,7 +35,7 @@
     group: root
     mode: 0644
 
-- name: Copy dump
+- name: Copy nginx config
   tags: webinar, webinar_create
   copy:
     src: "files/webinar_nginx"
