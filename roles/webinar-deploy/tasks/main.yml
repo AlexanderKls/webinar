@@ -3,5 +3,5 @@
 - name: Create files and dirs
   import_tasks: create.yml
 
-- name: Start docker compose
-  import_tasks: docker_compose.yml
+#- name: Start docker compose
+#  import_tasks: docker_compose.yml
