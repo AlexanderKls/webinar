@@ -3,7 +3,7 @@
   tags: webinar, webinar_create
   template:
     src: "templates/docker-compose.yml.j2"
-    dest: "/opt/webinar-bastion/docker-compose.yml"
+    dest: "{{ webinar_docker_file }}"
     owner: root
     group: root
     mode: 0700
@@ -18,7 +18,21 @@
 #    debug: true
 #  when: docker_compose_file.changed
 
-#- name: Run docker-compose to start webinar
+#- name: Run docker-compose
 #  tags: webinar, webinar_create
-#  docker_compose:
-#    project_src: /opt/webinar-bastion/
+#  docker_service:
+#    project_src: '/opt/webinar-bastion/'
+#  when: docker_compose_file.changed
+
+# Вообще по уму нужно использовать конструкцию сверху. Но это зависит от версии ansible, которая используется.
+# В версиях ansible =< 2.7 нужно использовать docker_service, выше - docker_compose. 
+# Так как в тестовом не было задачи на подготовку среды, я решил использовать метод ниже, чтобы при запуске избежать проблем.
+
+- name: Docker-compose down, if compose file was be changed
+  shell: "docker-compose -f {{ webinar_docker_file }} down"
+  ignore_errors: true
+  when: docker_compose_file.changed
+
+- name: Docker-compose up, if compose file was be changed
+  shell: "docker-compose -f {{ webinar_docker_file }} up -d"
+  when: docker_compose_file.changed

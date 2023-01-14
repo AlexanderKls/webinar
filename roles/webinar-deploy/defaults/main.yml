@@ -6,3 +6,7 @@ backend_count: 6
 
 webinar_cpu_count: 1
 webinar_memory_limit: "1G"
+
+webinar_root_pw: 4uER6xYMQv2pZpDo
+
+webinar_docker_file: '/opt/webinar-bastion/docker-compose.yml'

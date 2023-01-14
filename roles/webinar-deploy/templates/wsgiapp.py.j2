@@ -10,7 +10,7 @@ def application(environ, start_response):
         try:
             # Вообще здесь всегда будет 0 код ответа, так как команда не выполнится лишь в том случае,
             # если не будет доступна оболочка shell или subprocess модуль. В итоге при ошибке вернется ошибка подключения
-            s_result += [subprocess.check_output(f'mysql webinar -BN -u root -h {ip} -p4uER6xYMQv2pZpDo -e "{query}" 2>&1 | grep -v "Using a password"', shell=True)]
+            s_result += [subprocess.check_output(f'mysql webinar -BN -u root -h {ip} -p{{ webinar_root_pw }} -e "{query}" 2>&1 | grep -v "Using a password"', shell=True)]
         except:
             s_result += [f'Coud\'nt connect to the mysql server: {ip}']
 
