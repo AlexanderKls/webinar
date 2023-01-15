@@ -10,7 +10,7 @@ def application(environ, start_response):
     random_ip = random.choice(ips)
 
     try:
-        one_result = [subprocess.check_output(f'mysql webinar -BN -u root -h {random_ip} -p37896AYBSl9nHFhLvGiL -e "{query}" 2>&1 | grep -v "Using a password"', shell=True)]
+        one_result = [subprocess.check_output(f'mysql webinar -BN -u root -h {random_ip} -p{{ webinar_root_pw }} -e "{query}" 2>&1 | grep -v "Using a password"', shell=True)]
     except:
         one_result = f'Could\'nt connect to the mysql server: {random_ip}'
 
