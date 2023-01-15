@@ -42,6 +42,7 @@ def auto_psw():
     else:
       print(f'{bcolors.WARNING}Please, type y or n{bcolors.ENDC} \n')
       auto_psw()
+   # TODO: Fix bug. If input not Y or N, and then input Y - password not be generated. Will be null field.
 
     return result
 
