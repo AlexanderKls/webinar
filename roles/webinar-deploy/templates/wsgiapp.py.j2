@@ -14,9 +14,9 @@ def application(environ, start_response):
     except:
         one_result = f'Could\'nt connect to the mysql server: {random_ip}'
 
-    query_result = str(one_result).replace('\\t', ' ')
+    query_result = str(one_result).replace('\\t', ' ').split()
 
-    format_string = str(f'{query_result.split()[0]} {query_result.split()[1]} from {query_result.split()[2]}')
+    format_string = str(f'{query_result[0]} {query_result[1]} from {query_result[2]}')
 
     one_object = (str(format_string)[3:-4] + '\n').encode('ascii')
 
