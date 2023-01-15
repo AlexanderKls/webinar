@@ -32,18 +32,17 @@ https://www.digitalocean.com/community/tutorials/how-to-install-docker-compose-o
 
 Проверка работоспособности делается отправкой запроса на 127.0.0.1:80/api
 ```
-root@mak:/opt/webinar-bastion# curl localhost:80/api
-Anastasiya\tQwe\t1d7abd0365f1
-Oleg\tCde\t35936b4b218c
-Oleg\tQwe\t30973dbac359
-root@mak:/opt/webinar-bastion# curl localhost:80/api
-Andrew\tAsd\t1d7abd0365f1
-Anastasiya\tXsw\t35936b4b218c
-Anastasiya\tEwq\t30973dbac359
-root@mak:/opt/webinar-bastion# curl localhost:80/api
-Vladimir\tQwe\t1d7abd0365f1
-Evgeniy\tQwe\t35936b4b218c
-Stanislav\tCxz\t30973dbac359
+root@laboratory:/opt/webinar-bastion# curl localhost:80/api
+Anastasiya Xsw from 9731df512368
+
+root@laboratory:/opt/webinar-bastion# curl localhost:80/api
+Anastasiya Zxc from 35b543be6a05
+
+root@laboratory:/opt/webinar-bastion# curl localhost:80/api
+Alexander Zxc from 35b543be6a05
+
+root@laboratory:/opt/webinar-bastion# curl localhost:80/api
+Vladimir Qwe from 9731df512368
 ```
 
 ## Как проверить?
@@ -63,8 +62,8 @@ curl localhost:80/api
 ```
 ## Странности и преднамеренные действия
 
-1. Первое, что бросается в глаза, это результат вывода curl. Проблема в том, что когда я собирал nginx контейнер, я загрузил туда python mysql connector модуль,
-при учете того, что он был виден в установленных пакетах(pip list), я не мог его вызвать в скрипте. Следовательно, я не мог правильным методом конектиться к mysql и делать выборку. Реализовал с помощью subprocess модуля и вызова shell команды. Отформатировать строку там проблематично, из за того, что даже явным указанием типа данных как string, он не давал мне корректно форматировать строку, по этой причине мы видим в качестве разделителя '\t'. Так же позже пришла мысль использовать defaults-group-suffix через my.cnf, но эта версия mysql не поддерживает такую опцию. "Хорошая мысля приходит опосля"
+1. Странная реализация соединения с бекенд контейнерами. Проблема в том, что когда я собирал nginx контейнер, я загрузил туда python mysql connector модуль,
+при учете того, что он был виден в установленных пакетах(pip list), я не мог его вызвать в скрипте. Следовательно, я не мог правильным методом конектиться к mysql и делать выборку. Реализовал с помощью subprocess модуля и вызова shell команды. Так же позже пришла мысль использовать defaults-group-suffix через my.cnf, но эта версия mysql не поддерживает такую опцию. "Хорошая мысля приходит опосля"
 
 В рамках тестового задания я решил не зацикливаться на этой проблеме.
 
