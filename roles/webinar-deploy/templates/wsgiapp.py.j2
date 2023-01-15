@@ -3,7 +3,8 @@ import subprocess
 
 def application(environ, start_response):
 
-    ips = ['172.19.0.3', '172.19.0.4', '172.19.0.5']
+    ips = [{% for num in range(3,backend_count) %}'172.19.0.{{ num }}'{{ ", " if not loop.last else "" }}{% endfor %}]
+
     query = 'SELECT First.firstname, Last.lastname, @@HOSTNAME FROM First INNER JOIN Last ORDER BY RAND() LIMIT 1;'
 
     random_ip = random.choice(ips)
