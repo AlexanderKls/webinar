@@ -66,7 +66,7 @@
 
 #- name: Shutdown containers if running
 #  tags: webinar, webinar_create
-#  docker_compose:
+#  docker_service:
 #    project_src: /opt/webinar-bastion/
 #    state: absent
 #    remove_orphans: true
