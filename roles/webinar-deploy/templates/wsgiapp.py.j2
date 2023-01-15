@@ -1,27 +1,25 @@
+import random
 import subprocess
 
 def application(environ, start_response):
 
-    ips = [{% for num in range(3,backend_count) %}'172.19.0.{{ num }}'{{ ", " if not loop.last else "" }}{% endfor %}]
+    ips = ['172.19.0.3', '172.19.0.4', '172.19.0.5']
     query = 'SELECT First.firstname, Last.lastname, @@HOSTNAME FROM First INNER JOIN Last ORDER BY RAND() LIMIT 1;'
-    s_result = []
 
-    for ip in ips:
-        try:
-            # Вообще здесь всегда будет 0 код ответа, так как команда не выполнится лишь в том случае,
-            # если не будет доступна оболочка shell или subprocess модуль. В итоге при ошибке вернется ошибка подключения
-            s_result += [subprocess.check_output(f'mysql webinar -BN -u root -h {ip} -p{{ webinar_root_pw }} -e "{query}" 2>&1 | grep -v "Using a password"', shell=True)]
-        except:
-            s_result += [f'Coud\'nt connect to the mysql server: {ip}']
+    random_ip = random.choice(ips)
 
-    mysql_req = ''
+    try:
+        one_result = [subprocess.check_output(f'mysql webinar -BN -u root -h {random_ip} -p37896AYBSl9nHFhLvGiL -e "{query}" 2>&1 | grep -v "Using a password"', shell=True)]
+    except:
+        one_result = f'Could\'nt connect to the mysql server: {random_ip}'
 
-    for item in s_result:
-        object = str(item)[2:-3]
-        mysql_req += object + '\n'
+    query_result = str(one_result).replace('\\t', ' ')
 
-    body = mysql_req.encode('ascii')
+    format_string = str(f'{query_result.split()[0]} {query_result.split()[1]} from {query_result.split()[2]}')
+
+    one_object = (str(format_string)[3:-4] + '\n').encode('ascii')
+
     status = '200 OK'
     headers = [('Content-type', 'text/plain')]
     start_response(status, headers)
-    return [body]
+    return [one_object]
