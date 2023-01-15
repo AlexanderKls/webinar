@@ -24,6 +24,16 @@
     mode: 0755
   register: common_files
 
+- name: Copy env file
+  tags: webinar, webinar_create
+  template:
+    src: "templates/env.j2"
+    dest: "/opt/webinar-bastion/.env"
+    owner: 'root'
+    group: 'root'
+    mode: '0600'
+  register: common_files
+
 - name: Copy frontend app
   tags: webinar, webinar_create
   template:
